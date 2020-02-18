@@ -6,8 +6,8 @@ ADD 0-northwind-default-current-timestamp.sql /docker-entrypoint-initdb.d
 ADD 1-northwind-data.sql /docker-entrypoint-initdb.d
 
 HEALTHCHECK --interval=10s --timeout=5s --retries=3 \
-    CMD curl -s -f http://localhost:$APP_PORT/health > /dev/null || exit 1
-
+    CMD mysqladmin ping -uroot -pchangeit 2> /dev/null || exit 1
+    
 EXPOSE 3306
 VOLUME /var/lib/mysql
 
