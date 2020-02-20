@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: myappv2-deployment
+    labels:
+        name: myappv2
+        
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: myappv2
+    template:
+        metadata:
+            labels:
+                app: myappv2
+        spec:
+            containers:
+            - image: stackupiss/northwind-app:v2
+              name: mydb
+              env:
+              - name: DB_USER
+                value: root
+              - name: DB_PASSWORD
+                value: changeit
+              - name: DB_HOST
+                value: mydb-svc.default.svc.cluster.local
+              - name: DB_PORT
+                value: "3306"
+              ports:
+              - containerPort: 3000
+                name: myappv2
+              imagePullPolicy: Always
